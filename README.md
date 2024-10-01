@@ -1,7 +1,9 @@
-#Recipe Manager App
+# Recipe Manager App
+
 This is a Recipe Manager app built with Next.js (using the App Router), TypeScript, Framer Motion, and the Spoonacular API for fetching random recipes. Users can create, view, and save their favorite recipes. Favorites are persisted using React Context and localStorage.
 
-##Project Architecture
+## Project Architecture
+
 The app is organized into several key folders:
 
 1. app/
@@ -32,7 +34,7 @@ The app is organized into several key folders:
 7. utils/
    Contains utility files, such as API interaction methods.
 
-##Other Files
+## Other Files
 
 .env.local: Stores the API key for the Spoonacular API. You’ll need to add this file for the app to function correctly.
 
@@ -42,37 +44,39 @@ tailwind.config.ts: Tailwind CSS configuration file.
 
 setupTests.ts: Configuration file for setting up Jest and React Testing Library.
 
-#Setup Instructions
+# Setup Instructions
 
-##Prerequisites
+## Prerequisites
+
 Node.js: Make sure you have Node.js installed.
 npm or yarn: You’ll also need npm (or yarn) to install dependencies.
 Installation
-###Clone this repository:
+
+### Clone this repository:
 
 git clone https://github.com/your-repo/recipe-manager.git
 
 cd recipe-manager
 
-Install dependencies:
+### Install dependencies:
 
 npm install
 
-###Set up environment variables:
+### Set up environment variables:
 
-###Create a .env.local file at the root of the project and add your Spoonacular API key:
+### Create a .env.local file at the root of the project and add your Spoonacular API key:
 
 makefile
 
 NEXT_PUBLIC_SPOONACULAR_API_KEY=your-api-key-here
 
-###Start the development server:
+### Start the development server:
 
 npm run dev
 
-###Open the app in your browser at http://localhost:3000.
+### Open the app in your browser at http://localhost:3000.
 
-##Folder Structure Overview
+## Folder Structure Overview
 
 ├── app/ # Pages for Next.js App Router
 │ ├── create-recipe/
@@ -99,15 +103,18 @@ npm run dev
 ├── tailwind.config.ts # Tailwind CSS configuration
 └── README.md # Project documentation
 
-##Running Tests
-##This project uses Jest and React Testing Library for unit tests.
+## Running Tests
 
-###To run the tests:
+## This project uses Jest and React Testing Library for unit tests.
+
+### To run the tests:
 
 npm run test
 
-##Future Enhancements
+## Future Enhancements
 
-###User Authentication: Add user authentication to allow users to save their recipes across devices.
-###Pagination: Add pagination or infinite scrolling for large lists of recipes.
-###Search Autocomplete: Enhance the search feature with autocomplete suggestions from the Spoonacular API.(nop)
+### User Authentication: Add user authentication to allow users to save their recipes across devices.
+
+### Pagination: Add pagination or infinite scrolling for large lists of recipes.
+
+### Search Autocomplete: Enhance the search feature with autocomplete suggestions from the Spoonacular API.(nop)
