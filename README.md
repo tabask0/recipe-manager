@@ -50,17 +50,18 @@ setupTests.ts: Configuration file for setting up Jest and React Testing Library.
 
 Node.js: Make sure you have Node.js installed.
 npm or yarn: You’ll also need npm (or yarn) to install dependencies.
-Installation
+
+## Installation
 
 ### Clone this repository:
 
-git clone https://github.com/your-repo/recipe-manager.git
+`git clone https://github.com/your-repo/recipe-manager.git`
 
-cd recipe-manager
+`cd recipe-manager`
 
 ### Install dependencies:
 
-npm install
+`npm install`
 
 ### Set up environment variables:
 
@@ -68,11 +69,11 @@ npm install
 
 makefile
 
-NEXT_PUBLIC_SPOONACULAR_API_KEY=your-api-key-here
+`NEXT_PUBLIC_SPOONACULAR_API_KEY=your-api-key-here`
 
 ### Start the development server:
 
-npm run dev
+`npm run dev`
 
 ### Open the app in your browser at http://localhost:3000.
 
@@ -109,12 +110,12 @@ npm run dev
 
 ### To run the tests:
 
-npm run test
+`npm run test`
 
 ## Future Enhancements
 
-### User Authentication: Add user authentication to allow users to save their recipes across devices.
+### NOPE
 
-### Pagination: Add pagination or infinite scrolling for large lists of recipes.
+## Feedback
 
-### Search Autocomplete: Enhance the search feature with autocomplete suggestions from the Spoonacular API.(nop)
+If you have any feedback, please reach out to me at bucur37@gmail.com
