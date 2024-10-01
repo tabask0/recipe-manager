@@ -1,101 +1,203 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useState } from "react";
+import axios from "axios";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import RecipeList from "../components/RecipeList";
+import { useRecipes } from "../context/RecipeContext";
+
+const HomePage = () => {
+  const { recipes, setRecipes } = useRecipes();
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [dietaryPreferences, setDietaryPreferences] = useState({
+    vegetarian: false,
+    vegan: false,
+    glutenFree: false,
+  });
+
+  const fetchRecipes = async () => {
+    setIsLoading(true);
+    setError(null);
+
+    const dietaryFilters = [];
+    if (dietaryPreferences.vegetarian) dietaryFilters.push("vegetarian");
+    if (dietaryPreferences.vegan) dietaryFilters.push("vegan");
+    if (dietaryPreferences.glutenFree) dietaryFilters.push("gluten-free");
+
+    try {
+      const res = await axios.get(
+        `https://api.spoonacular.com/recipes/random?apiKey=${process.env.NEXT_PUBLIC_SPOONACULAR_API_KEY}&number=20&tags=${dietaryFilters.join(",")}`
+      );
+      setRecipes(res.data.recipes);
+    } catch (err: unknown) {
+      console.log(err);
+      setError("Failed to load recipes. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <motion.div
+      className="min-h-screen bg-gray-100 flex flex-col items-center py-8"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      <motion.h1
+        className="text-4xl text-black font-bold mb-4"
+        initial={{ y: -50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+      >
+        Recipe Manager
+      </motion.h1>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      <motion.div
+        className="flex flex-row gap-4 py-2 mb-6"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.7, delay: 0.4 }}
+      >
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Search for a recipe..."
+          className="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none w-full max-w-lg"
+        />
+        <motion.button
+          onClick={fetchRecipes}
+          className="bg-blue-500 text-white px-6 py-3 rounded-lg"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+          transition={{ duration: 0.3 }}
+        >
+          Search
+        </motion.button>
+      </motion.div>
+
+      <motion.div
+        className="flex gap-4 mb-6"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, delay: 0.5 }}
+      >
+        <label className="flex items-center">
+          <input
+            className="mx-[3px]"
+            type="checkbox"
+            checked={dietaryPreferences.vegetarian}
+            onChange={() =>
+              setDietaryPreferences((prev) => ({
+                ...prev,
+                vegetarian: !prev.vegetarian,
+              }))
+            }
+          />
+          Vegetarian
+        </label>
+        <label className="flex items-center">
+          <input
+            className="mx-[3px]"
+            type="checkbox"
+            checked={dietaryPreferences.vegan}
+            onChange={() =>
+              setDietaryPreferences((prev) => ({
+                ...prev,
+                vegan: !prev.vegan,
+              }))
+            }
+          />
+          Vegan
+        </label>
+        <label className="flex items-center">
+          <input
+            className="mx-[3px]"
+            type="checkbox"
+            checked={dietaryPreferences.glutenFree}
+            onChange={() =>
+              setDietaryPreferences((prev) => ({
+                ...prev,
+                glutenFree: !prev.glutenFree,
+              }))
+            }
+          />
+          Gluten-Free
+        </label>
+      </motion.div>
+
+      <motion.div
+        className="flex flex-row gap-4 mb-6"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.9, delay: 0.6 }}
+      >
+        <motion.button
+          onClick={fetchRecipes}
+          className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-300"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          Get Random Recipes
+        </motion.button>
+
+        <Link href="/my-recipes">
+          <motion.button
+            className="bg-purple-500 text-white px-6 py-3 rounded-lg hover:bg-purple-600 transition duration-300"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            My Recipes
+          </motion.button>
+        </Link>
+
+        <Link href="/favorite">
+          <motion.button
+            className="bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-purple-600 transition duration-300"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+            Favorite
+          </motion.button>
+        </Link>
+      </motion.div>
+
+      {isLoading && (
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
         >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          Loading recipes...
+        </motion.p>
+      )}
+
+      {error && (
+        <motion.p
+          className="text-red-500"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
         >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          {error}
+        </motion.p>
+      )}
+
+      {recipes.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
         >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          <RecipeList recipes={recipes} searchQuery={searchQuery} />
+        </motion.div>
+      )}
+    </motion.div>
   );
-}
+};
+
+export default HomePage;
