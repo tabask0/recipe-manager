@@ -49,6 +49,7 @@ setupTests.ts: Configuration file for setting up Jest and React Testing Library.
 ## Prerequisites
 
 Node.js: Make sure you have Node.js installed.
+
 npm or yarn: You’ll also need npm (or yarn) to install dependencies.
 
 ## Installation
@@ -67,7 +68,7 @@ npm or yarn: You’ll also need npm (or yarn) to install dependencies.
 
 ### Create a .env.local file at the root of the project and add your Spoonacular API key:
 
-makefile
+`makefile`
 
 `NEXT_PUBLIC_SPOONACULAR_API_KEY=your-api-key-here`
 
@@ -79,6 +80,7 @@ makefile
 
 ## Folder Structure Overview
 
+```bash
 ├── app/ # Pages for Next.js App Router
 │ ├── create-recipe/
 │ ├── favorite/
@@ -103,6 +105,7 @@ makefile
 ├── jest.config.ts # Jest configuration
 ├── tailwind.config.ts # Tailwind CSS configuration
 └── README.md # Project documentation
+```
 
 ## Running Tests
 
